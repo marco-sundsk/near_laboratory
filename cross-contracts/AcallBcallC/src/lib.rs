@@ -10,7 +10,7 @@ use near_sdk::wee_alloc;
 use near_sdk::{env, near_bindgen, Promise, ext_contract, Gas, Balance, AccountId};
 
 const DEPOSIT_FIVE_NEAR: Balance = 5_000_000_000_000_000_000_000_000;
-const GAS_FOR_BASIC: Gas = 5_000_000_000_000;
+const GAS_FOR_BASIC: Gas = 10_000_000_000_000;
 
 
 #[ext_contract(ext_cb)]
@@ -80,10 +80,10 @@ impl Contract {
             env::prepaid_gas()).as_bytes()
         );
 
+        self.status = 8_u8;
+
         let amount = env::attached_deposit();
         assert!(amount > DEPOSIT_FIVE_NEAR, "The deposit should more than 5 near.");
-
-        self.status = 8_u8;
 
         if env::is_valid_account_id(self.contract_next.as_bytes()) {
             ext_cb::call_has_promise(
@@ -106,10 +106,10 @@ impl Contract {
             env::prepaid_gas()).as_bytes()
         );
 
+        self.status = 8_u8;
+
         let amount = env::attached_deposit();
         assert!(amount > DEPOSIT_FIVE_NEAR, "The deposit should more than 5 near.");
-
-        self.status = 8_u8;
 
         ext_cb::call_has_promise(
             &self.contract_next,
